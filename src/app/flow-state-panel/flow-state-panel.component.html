@@ -1,0 +1,54 @@
+<div class="panel">
+  <h2>Flow / State Panel</h2>
+  <div
+    *ngIf="message"
+    [ngClass]="messageType === 'success' ? 'message-success' : 'message-error'"
+  >
+    {{ message }}
+  </div>
+
+  <!-- Line 1: Create Flow -->
+  <div>
+    <label>Flow name:</label>
+    <input
+      [(ngModel)]="flowName"
+      placeholder="Input flow name"
+      maxlength="10"
+    />
+    <button (click)="createFlow()">Create Flow</button>
+  </div>
+
+  <!-- Line 2: Create State -->
+  <div>
+    <label>State name:</label>
+    <input [(ngModel)]="stateName" placeholder="Input state name" />
+    <select [(ngModel)]="selectedFlowId" (change)="getStates()">
+      <option *ngFor="let flow of flows" [value]="flow.id">
+        {{ flow.name }}
+      </option>
+    </select>
+    <button (click)="createState()">Create State</button>
+  </div>
+
+  <!-- Line 3: Show Associated States and Flows -->
+  <fieldset class="line-3">
+    <legend>Verify / Delete Flow-State Associations</legend>
+    <label>Choose Flow:</label>
+    <select [(ngModel)]="selectedFlowId" (change)="getStates()">
+      <option *ngFor="let flow of flows" [value]="flow.id">
+        {{ flow.name }}
+      </option>
+    </select>
+    <label>Choose State:</label>
+    <select [(ngModel)]="selectedStateId">
+      <option
+        *ngFor="let state of states"
+        [ngClass]="{ 'associated-state': state.associated }"
+        [value]="state.id"
+      >
+        {{ state.name }}
+      </option>
+    </select>
+    <button (click)="deleteStateAssociation()">Delete State</button>
+  </fieldset>
+</div>
